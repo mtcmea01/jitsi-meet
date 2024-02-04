@@ -1,5 +1,20 @@
 #!/bin/bash
 
+#host : t1.velaconference.business
+
+#Announce Variables 
+myhostname="t1.velaconference.business" #edit this manually and enter your URL
+myip=`curl -4 ifconfig.me`
+
+#Starting script
+hostnamectl set-hostname $myhostname
+apt update
+apt -y install nginx wget lua5.2 certbot python3-certbot-nginx git curl
+echo "$myip $myhostname" >> /etc/hosts
+
+# Update the package list
+apt-get update
+
 # Update the package list
 sudo apt-get update
 
@@ -17,7 +32,8 @@ if ! command -v docker-compose &> /dev/null; then
 fi
 
 # Navigate to your projects directory (change this to your desired directory)
-cd /path/to/your/projects/directory
+mkdir /meet
+cd /meet
 
 REPO_URL="https://github.com/kushalg-1212/jitsi-meet.git"
 REPO_NAME="jitsi-meet"
@@ -28,6 +44,7 @@ if [ ! -d "$REPO_NAME" ]; then
     cd $REPO_NAME
 else
     cd $REPO_NAME
+    git push
     git pull
 fi
 
